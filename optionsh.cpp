@@ -1,8 +1,10 @@
 #include <nlohmann/json.hpp>
+#include <algorithm>
 #include <iostream>
 #include <variant>
 #include <cstdlib>
 #include <unordered_map>
+#include <string>
 #include "options/options++.h"
 using json = nlohmann::json;
 
@@ -41,6 +43,15 @@ const char* get_string_or_null(json& map,std::string key) {
   return NULL;
 }
 
+argument_type argument_type_from_string(std::string type_string) {
+  static std::unordered_map<std::string,argument_type> type_map = {{"NO_ARGUMENT",NO_ARGUMENT},
+								   {"REQUIRED_ARGUMENT",REQUIRED_ARGUMENT},
+								   {"OPTIONAL_ARGUMENT",OPTIONAL_ARGUMENT},
+								   {"POSITIONAL",POSITIONAL}};
+  std::transform(type_string.begin(),type_string.end(),type_string.begin(),::toupper);
+  return type_map[type_string];
+}
+
 
 int main(int argc, char* argv[]) {
   std::cin >> std::noskipws;
@@ -56,7 +67,7 @@ int main(int argc, char* argv[]) {
   for (auto option: options_json["options"]) {
     custom_option arg = {strdup(option["long_name"].get<std::string>().c_str()),
     			 get_string_or_null(option,"short_name"),
-    			 get_or_default<::argument_type>(option,"has_arg",POSITIONAL),
+    			 argument_type_from_string(get_or_default<std::string>(option,"has_arg",std::string("POSITIONAL"))),
 			 get_string_or_null(option,"help"),
     			 get_or_default<bool>(option,"optional",false
 					      )};
