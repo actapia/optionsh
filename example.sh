@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source ./optionsh.sh
+source optionsh.sh
 declare -A MYARGS
 parse_args $0 MYARGS "$@"
 parse_result=$?
