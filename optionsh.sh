@@ -15,7 +15,9 @@ function parse_args {
     elif [ $exit_code -eq 0 ]; then
 	while read -r line; do
 	    IFS=":" read -r arg value <<<"$line"
-	    ARGS["$arg"]="$value"
+	    if ! [ -z "$arg" ]; then
+		ARGS["$arg"]="$value"
+	    fi
 	done <<<"$result"
     fi
 }
