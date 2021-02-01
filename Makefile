@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -g
 CXX = g++
-CXXFLAGS = -g -std=c++2a -fconcepts -I"/home/andrew/Documents/json/include"
+CXXFLAGS = -g -std=c++2a -fconcepts -I"json/include"
 OPTIONS_DIR = options
 OPTIONSH_NAME = optionsh
 OPTIONSH_CXX_SOURCES = optionsh.cpp options/options++.cpp
