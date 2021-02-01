@@ -16,6 +16,10 @@ $(OPTIONSH_NAME): $(OPTIONSH_OBJECTS)
 clean: 
 	rm -f $(OPTIONSH_OBJECTS) optionsh
 
+distclean: clean
+	rm -f .optionsh_c_depend
+	rm -f .optionsh_cxx_depend
+
 options/options++.o: options/options++.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $^
 
