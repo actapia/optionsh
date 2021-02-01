@@ -10,6 +10,8 @@ OPTIONSH_OBJECTS = optionsh.o options/options++.o options/options.o options/form
 OPTIONSH_SCRIPT = optionsh.sh
 DESTDIR = /usr/local
 
+MAKEFILE_TARGETS_WITHOUT_INCLUDE := clean distclean
+
 $(OPTIONSH_NAME): $(OPTIONSH_OBJECTS)
 	$(CXX) $(CXXFLAGS) -o $@ $(OPTIONSH_OBJECTS)
 
@@ -41,8 +43,11 @@ optionsh_c_depend: .optionsh_c_depend
 	rm -f ./.optionsh_c_depend
 	$(CC) $(CFLAGS) -MM $^ > ./.optionsh_c_depend
 
+# Include only if the goal needs it
+ifeq ($(filter $(MAKECMDGOALS),$(MAKEFILE_TARGETS_WITHOUT_INCLUDE)),)
 include .optionsh_cxx_depend
 include .optionsh_c_depend
+endif
 
 install: $(OPTIONSH_NAME) $(OPTIONSH_SCRIPT)
 	mkdir -p $(DESTDIR)/bin
