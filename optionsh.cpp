@@ -24,21 +24,27 @@ std::variant<T,S> get_or_default(json& map,std::string key,S default_value) {
 template<typename S>
 S get_or_default(json& map, std::string key, S default_value) {
   auto var = get_or_default<S,S>(map,key,default_value);
-  try {
-    return std::get<0>(var);
+  if (auto* p = std::get_if<0>(&var)) {
+    return *p;
   }
-  catch(const std::bad_variant_access& e) {
-    return std::get<1>(var);
+  else {
+    return *std::get_if<1>(&var);
   }
+  // try {
+  //   return std::get<0>(var);
+  // }
+  // catch(const std::bad_variant_access& e) {
+  //   return std::get<1>(var);
+  // }
 }
 
 const char* get_string_or_null(json& map,std::string key) {
   auto raw_value = get_or_default<const char*,std::string>(map,key,(const char*)NULL);
   if (std::holds_alternative<const char*>(raw_value)) {
-    return std::get<const char*>(raw_value);
+    return *std::get_if<const char*>(&raw_value);
   }
   else {
-    return strdup(std::get<std::string>(raw_value).c_str());
+    return strdup(std::get_if<std::string>(&raw_value)->c_str());
   }
   return NULL;
 }
@@ -112,10 +118,10 @@ int main(int argc, char* argv[]) {
   for (auto const& [arg, value]: args) {
     std::cout << arg << ":";
     if (std::holds_alternative<std::string>(value)) {
-      std::cout << std::get<std::string>(value);
+      std::cout << *std::get_if<std::string>(&value);
     }
     else {
-      std::cout << std::boolalpha << std::get<bool>(value);
+      std::cout << std::boolalpha << *std::get_if<bool>(&value);
     }
     std::cout << std::endl;
   }
