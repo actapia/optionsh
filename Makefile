@@ -7,8 +7,10 @@ OPTIONSH_NAME = optionsh
 OPTIONSH_CXX_SOURCES = optionsh.cpp options/options++.cpp
 OPTIONSH_C_SOURCES = options/options.c options/formatting.c
 OPTIONSH_OBJECTS = optionsh.o options/options++.o options/options.o options/formatting.o
+OPTIONSH_SCRIPT = optionsh.sh
+DESTDIR = /usr/local
 
-optionsh: $(OPTIONSH_OBJECTS)
+$(OPTIONSH_NAME): $(OPTIONSH_OBJECTS)
 	$(CXX) $(CXXFLAGS) -o $@ $(OPTIONSH_OBJECTS)
 
 clean: 
@@ -37,3 +39,8 @@ optionsh_c_depend: .optionsh_c_depend
 
 include .optionsh_cxx_depend
 include .optionsh_c_depend
+
+install: $(OPTIONSH_NAME) $(OPTIONSH_SCRIPT)
+	mkdir -p $(DESTDIR)/bin
+	cp $(OPTIONSH_NAME) $(DESTDIR)/bin/$(OPTIONSH_NAME)
+	cp $(OPTIONSH_SCRIPT) $(DESTDIR)/bin/$(OPTIONSH_SCRIPT)
