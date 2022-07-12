@@ -28,6 +28,7 @@
    convertible.
 */
 
+
 template <typename S, typename T, typename CompareS = std::less<S>, typename CompareT = std::less<T>>
 #ifdef __cpp_concepts
 requires different<S,T>
@@ -155,12 +156,12 @@ private:
 
 //static_assert(strcmp(__FILE__,"twomap.cpp") != 0,"Do not compile this file.");
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 twomap<S,T,CompareS,CompareT>::twomap() {
   
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 template <class input_it>
 twomap<S,T,CompareS,CompareT>::twomap(input_it first, input_it last) {
   // This constructor creates a twomap from the range defined by the iterators first and last.
@@ -169,14 +170,14 @@ twomap<S,T,CompareS,CompareT>::twomap(input_it first, input_it last) {
   }
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 twomap<S,T,CompareS,CompareT>::twomap(const twomap<S,T,CompareS,CompareT>& other) {
   // Copy constructor
   map = other.map;
   inverse = other.inverse;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 twomap<S,T,CompareS,CompareT>::twomap(twomap<S,T,CompareS,CompareT>&& other) {
   // Move constructor
   map = other.map;
@@ -185,7 +186,7 @@ twomap<S,T,CompareS,CompareT>::twomap(twomap<S,T,CompareS,CompareT>&& other) {
   other.inverse = nullptr;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 twomap<S,T,CompareS,CompareT>::twomap(std::initializer_list<std::pair<S,T>> init) {
   // This constructor creates a twomap with the contents of the initializer list init.
   // Note: for this constructor, the list is a list of std::pair<S,T>.
@@ -194,7 +195,7 @@ twomap<S,T,CompareS,CompareT>::twomap(std::initializer_list<std::pair<S,T>> init
   }
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 twomap<S,T,CompareS,CompareT>::twomap(std::initializer_list<std::pair<T,S>> init) {
   // This constructor creates a twomap with the contents of the initializer list init.
   // Note: for this constructor, the list is a list of std::pair<T,S>.
@@ -203,19 +204,19 @@ twomap<S,T,CompareS,CompareT>::twomap(std::initializer_list<std::pair<T,S>> init
   }
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 twomap<S,T,CompareS,CompareT>& twomap<S,T,CompareS,CompareT>::operator=(const twomap<S,T,CompareS,CompareT>& other) {
   // Copy assignment operator.
   return twomap(other);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 twomap<S,T,CompareS,CompareT>& twomap<S,T,CompareS,CompareT>::operator=(twomap<S,T,CompareS,CompareT>&& other) {
   // Move assignment operator.
   return twomap(std::forward<twomap<S,T,CompareS,CompareT>>(other));
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 twomap<S,T,CompareS,CompareT>& twomap<S,T,CompareS,CompareT>::operator=(std::initializer_list<std::pair<S,T>> init) {
   /* This assignment operator replaces the contents of the twomap with the contents of the initializer
      list init.
@@ -225,7 +226,7 @@ twomap<S,T,CompareS,CompareT>& twomap<S,T,CompareS,CompareT>::operator=(std::ini
   return twomap(init);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 twomap<S,T,CompareS,CompareT>& twomap<S,T,CompareS,CompareT>::operator=(std::initializer_list<std::pair<T,S>> init) {
     /* This assignment operator replaces the contents of the twomap with the contents of the initializer
      list init.
@@ -235,55 +236,55 @@ twomap<S,T,CompareS,CompareT>& twomap<S,T,CompareS,CompareT>::operator=(std::ini
   return twomap(init);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 typename forward_map<S,T,CompareS>::iterator twomap<S,T,CompareS,CompareT>::S_begin() {
   // This method returns an iterator the beginning of the forward map.
   return map.begin();
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 typename inverse_map<T,S,CompareT>::iterator twomap<S,T,CompareS,CompareT>::T_begin() {
   // This method returns an iterator to the beginning of the inverse multimap.
   return inverse.begin();
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 typename forward_map<S,T,CompareS>::const_iterator twomap<S,T,CompareS,CompareT>::S_cbegin() {
   // This method returns a constant interator to the beginning of the forward map.
   return map.cbegin();
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 typename inverse_map<T,S,CompareT>::const_iterator twomap<S,T,CompareS,CompareT>::T_cbegin() {
   // This method returns a constant iterator to the beginning of the inverse multimap.
   return inverse.cbegin();
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 typename forward_map<S,T,CompareS>::iterator twomap<S,T,CompareS,CompareT>::S_end() {
   // This method returns an iterator to the end of the forward map.
   return map.end();
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 typename inverse_map<T,S,CompareT>::iterator twomap<S,T,CompareS,CompareT>::T_end() {
   // This method returns an iterator to the end of the inverse multimap.
   return inverse.end();
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 typename forward_map<S,T,CompareS>::const_iterator twomap<S,T,CompareS,CompareT>::S_cend() {
   // This method returns a constant iterator to the end of the forward map.
   return map.cend();
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 typename inverse_map<T,S,CompareT>::const_iterator twomap<S,T,CompareS,CompareT>::T_cend() {
   // This method returns a constant iterator to the end of the inverse multimap.
   return inverse.cend();
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 bool twomap<S,T,CompareS,CompareT>::empty() {
   /* This method returns true if there are no elements in the twomap.
 
@@ -292,26 +293,26 @@ bool twomap<S,T,CompareS,CompareT>::empty() {
   return map.empty();
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 size_t twomap<S,T,CompareS,CompareT>::size() {
   // This method returns the number of elements in the twomap.
   return map.size();
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 size_t twomap<S,T,CompareS,CompareT>::max_size() {
   // This method returns the maximum number of elements that the twomap may hold.
   return std::min(map.max_size(),inverse.max_size());
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 void twomap<S,T,CompareS,CompareT>::clear() {
   // This method erases all elements from the twomap.
   map.clear();
   inverse.clear();
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 typename std::pair<std::pair<typename forward_map<S,T,CompareS>::iterator,typename inverse_map<T,S,CompareT>::iterator>,bool> twomap<S,T,CompareS,CompareT>::insert(const std::pair<S,T>& value) {
   /* This method attempts to insert the key (S_key), value (T_key) pair into the twomap.
      
@@ -354,7 +355,7 @@ typename std::pair<std::pair<typename forward_map<S,T,CompareS>::iterator,typena
   return std::make_pair(std::make_pair(iter.first,inv_iter),iter.second);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 typename std::pair<std::pair<typename forward_map<S,T,CompareS>::iterator,typename inverse_map<T,S,CompareT>::iterator>,bool> twomap<S,T,CompareS,CompareT>::insert(const std::pair<T,S>& value) {
     /* This method attempts to insert the key (T_key), value (S_key) pair into the twomap.
      
@@ -373,7 +374,7 @@ typename std::pair<std::pair<typename forward_map<S,T,CompareS>::iterator,typena
   return insert(std::make_pair(value.second,value.first));
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 typename std::pair<std::pair<typename forward_map<S,T,CompareS>::iterator,typename inverse_map<T,S,CompareT>::iterator>,bool> twomap<S,T,CompareS,CompareT>::emplace(S&& key, T&& value) {
   /* This method attempts to construct an element in-place in the container using the provided key
      (S_key) and value (T_key).
@@ -420,7 +421,7 @@ typename std::pair<std::pair<typename forward_map<S,T,CompareS>::iterator,typena
   return std::make_pair(std::make_pair(iter.first,inv_iter),iter.second);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 typename std::pair<std::pair<typename forward_map<S,T,CompareS>::iterator,typename inverse_map<T,S,CompareT>::iterator>,bool> twomap<S,T,CompareS,CompareT>::emplace(T&& value, S&& key) {
     /* This method attempts to construct an element in-place in the container using the provided value
      (T_key) and key (S_key).
@@ -442,7 +443,7 @@ typename std::pair<std::pair<typename forward_map<S,T,CompareS>::iterator,typena
 }
 
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 std::pair<typename forward_map<S,T,CompareS>::iterator,typename inverse_map<T,S,CompareT>::iterator> twomap<S,T,CompareS,CompareT>::erase(typename forward_map<S,T,CompareS>::const_iterator pos) {
   /* This method removes the element in the forward map at position pos and removes the corresponding
      element in the inverse map.
@@ -464,7 +465,7 @@ std::pair<typename forward_map<S,T,CompareS>::iterator,typename inverse_map<T,S,
   return std::make_pair(iter,inv_iter);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 std::pair<typename forward_map<S,T,CompareS>::iterator,typename inverse_map<T,S,CompareT>::iterator> twomap<S,T,CompareS,CompareT>::erase(typename inverse_map<T,S,CompareT>::const_iterator pos) {
   /* This method removes the element in the inverse map at position pos and removes the corresponding
      element in the forward map.
@@ -479,7 +480,7 @@ std::pair<typename forward_map<S,T,CompareS>::iterator,typename inverse_map<T,S,
   return std::make_pair(iter,inv_iter);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 std::pair<typename forward_map<S,T,CompareS>::iterator,typename inverse_map<T,S,CompareT>::iterator> twomap<S,T,CompareS,CompareT>::erase(typename forward_map<S,T,CompareS>::const_iterator first, typename forward_map<S,T,CompareS>::const_iterator last) {
   /* This method removes all elements in the forward map in the range defined by the iterators first
      and last. It also erases all elements in the inverse map corresponding to the elements found in
@@ -496,7 +497,7 @@ std::pair<typename forward_map<S,T,CompareS>::iterator,typename inverse_map<T,S,
   return result;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 std::pair<typename forward_map<S,T,CompareS>::iterator,typename inverse_map<T,S,CompareT>::iterator> twomap<S,T,CompareS,CompareT>::erase(typename inverse_map<T,S,CompareT>::const_iterator first, typename inverse_map<T,S,CompareT>::const_iterator last) {
   /* This method removes all elements in the inverse map in the range defined by the iterators first
      and last. It also erases all elements in the forward map corresponding to the elements found in
@@ -513,7 +514,7 @@ std::pair<typename forward_map<S,T,CompareS>::iterator,typename inverse_map<T,S,
   return result;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 size_t twomap<S,T,CompareS,CompareT>::erase(const S& key) {
   /* This method erases the element with the key (S_key) key in the twomap.
 
@@ -532,7 +533,7 @@ size_t twomap<S,T,CompareS,CompareT>::erase(const S& key) {
   return 0;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 size_t twomap<S,T,CompareS,CompareT>::erase(const T& key) {
   /* This method erases all elements with the key (T_key) key in the twomap.
 
@@ -552,14 +553,14 @@ size_t twomap<S,T,CompareS,CompareT>::erase(const T& key) {
   return 0;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 void twomap<S,T,CompareS,CompareT>::swap(twomap<S,T,CompareS,CompareT>& other) {
   // This method swaps the contents of the twomap with those of another.
   std::swap(map,other.map);
   std::swap(inverse,other.inverse);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 twomap_setter<S,T,CompareS,CompareT> twomap<S,T,CompareS,CompareT>::at(const S& key) {
   /* at returns a twomap_setter that may be used to read and write to the value in the twomap
      with key (S_key) key.
@@ -575,7 +576,7 @@ twomap_setter<S,T,CompareS,CompareT> twomap<S,T,CompareS,CompareT>::at(const S& 
   }
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 const twomap_setter<S,T,CompareS,CompareT> twomap<S,T,CompareS,CompareT>::at(const S& key) const {
   /* at returns a twomap_setter that may be used to read and write to the value in the twomap
      with key (S_key) key.
@@ -591,7 +592,7 @@ const twomap_setter<S,T,CompareS,CompareT> twomap<S,T,CompareS,CompareT>::at(con
   }
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 twomap_setter<S,T,CompareS,CompareT> twomap<S,T,CompareS,CompareT>::operator[](const S& key) {
   /* The [] operator returns a twomap_setter that may be used to read and write to the value in the
      twomap with key (S_key) key.
@@ -602,7 +603,7 @@ twomap_setter<S,T,CompareS,CompareT> twomap<S,T,CompareS,CompareT>::operator[](c
   return twomap_setter<S,T,CompareS,CompareT>(key,&map,&inverse);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 twomap_setter<S,T,CompareS,CompareT> twomap<S,T,CompareS,CompareT>::operator[](S&& key) {
   /* The [] operator returns a twomap_setter that may be used to read and write to the value in the
      twomap with key (S_key) key.
@@ -613,19 +614,19 @@ twomap_setter<S,T,CompareS,CompareT> twomap<S,T,CompareS,CompareT>::operator[](S
   return twomap_setter<S,T,CompareS,CompareT>(std::forward<S>(key),&map,&inverse);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 size_t twomap<S,T,CompareS,CompareT>::count(const S& key) const {
   // This method returns the number of elements in the twomap with the given key (S_key).
   return map.count(key);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 size_t twomap<S,T,CompareS,CompareT>::count(const T& key) const {
   // This method returns the number of elements in the twomap with the given key (T_key).
   return inverse.count(key);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 template <typename K>
 size_t twomap<S,T,CompareS,CompareT>::S_count(const K& key) const {
   // This method returns the number of elements in the twomap with the given key.
@@ -633,7 +634,7 @@ size_t twomap<S,T,CompareS,CompareT>::S_count(const K& key) const {
   return map.count(key);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 template <typename K>
 size_t twomap<S,T,CompareS,CompareT>::T_count(const K& key) const {
   // This method returns the number of elements in the twomap with the given key.
@@ -641,7 +642,7 @@ size_t twomap<S,T,CompareS,CompareT>::T_count(const K& key) const {
   return inverse.count(key);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 typename forward_map<S,T,CompareS>::iterator twomap<S,T,CompareS,CompareT>::find(const S& key) {
   /* This method finds the element in the twomap with key (S_key) key, if it exists, and returns an
      iterator positioned at the element in the forward map.
@@ -651,7 +652,7 @@ typename forward_map<S,T,CompareS>::iterator twomap<S,T,CompareS,CompareT>::find
   return map.find(key);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 typename inverse_map<T,S,CompareT>::iterator twomap<S,T,CompareS,CompareT>::find(const T& key) {
   /* This method finds the first element in the twomap with key (T_key) key, if it exists, and returns
      an iterator positioned at the element in the inverse map.
@@ -661,7 +662,7 @@ typename inverse_map<T,S,CompareT>::iterator twomap<S,T,CompareS,CompareT>::find
   return inverse.find(key);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 typename forward_map<S,T,CompareS>::const_iterator twomap<S,T,CompareS,CompareT>::find(const S& key) const {
   /* This method finds the element in the twomap with key (S_key) key, if it exists, and returns a
      constant iterator positioned at the element in the forward map.
@@ -671,7 +672,7 @@ typename forward_map<S,T,CompareS>::const_iterator twomap<S,T,CompareS,CompareT>
   return map.find(key);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 typename inverse_map<T,S,CompareT>::const_iterator twomap<S,T,CompareS,CompareT>::find(const T& key) const {
   /* This method finds the first element in the twomap with key (T_key) key, if it exists, and returns
      a constant iterator positioned at the element in the inverse map.
@@ -681,7 +682,7 @@ typename inverse_map<T,S,CompareT>::const_iterator twomap<S,T,CompareS,CompareT>
   return inverse.find(key);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 template <typename K>
 typename forward_map<S,T,CompareS>::iterator twomap<S,T,CompareS,CompareT>::S_find(const K& key) {
   /* This method finds the element in the twomap with the given key, if it exists, and returns an
@@ -694,7 +695,7 @@ typename forward_map<S,T,CompareS>::iterator twomap<S,T,CompareS,CompareT>::S_fi
   return map.find(key);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 template <typename K>
 typename inverse_map<T,S,CompareT>::iterator twomap<S,T,CompareS,CompareT>::T_find(const K& key) {
   /* This method finds the element in the twomap with the given key, if it exists, and returns an
@@ -707,7 +708,7 @@ typename inverse_map<T,S,CompareT>::iterator twomap<S,T,CompareS,CompareT>::T_fi
   return inverse.find(key);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 template <typename K>
 typename forward_map<S,T,CompareS>::iterator twomap<S,T,CompareS,CompareT>::S_find(const K& key) const {
   /* This method finds the element in the twomap with the given key, if it exists, and returns a
@@ -720,7 +721,7 @@ typename forward_map<S,T,CompareS>::iterator twomap<S,T,CompareS,CompareT>::S_fi
   return map.find(key);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 template <typename K>
 typename inverse_map<T,S,CompareT>::iterator twomap<S,T,CompareS,CompareT>::T_find(const K& key) const {
   /* This method finds the element in the twomap with the given key, if it exists, and returns a
@@ -733,19 +734,19 @@ typename inverse_map<T,S,CompareT>::iterator twomap<S,T,CompareS,CompareT>::T_fi
   return inverse.find(key);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 bool twomap<S,T,CompareS,CompareT>::contains(const S& key) const {
   // This method returns true when the twomap contains the key (S_key) key.
   return map.find(key) != map.end();
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 bool twomap<S,T,CompareS,CompareT>::contains(const T& key) const {
   // This method returns true when the twomap contains the key (T_key) key.
   return inverse.find(key) != inverse.end();
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 template <typename K>
 bool twomap<S,T,CompareS,CompareT>::S_contains(const K& key) const {
   // This method returns true when the twomap contains the given key.
@@ -753,7 +754,7 @@ bool twomap<S,T,CompareS,CompareT>::S_contains(const K& key) const {
   return map.find(key) != map.end();
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 template <typename K>
 bool twomap<S,T,CompareS,CompareT>::T_contains(const K& key) const {
   // This method returns true when the twomap contains the given key.
@@ -761,7 +762,7 @@ bool twomap<S,T,CompareS,CompareT>::T_contains(const K& key) const {
   return inverse.find(key) != inverse.end();
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 typename std::pair<typename forward_map<S,T,CompareS>::iterator,typename forward_map<S,T,CompareS>::iterator> twomap<S,T,CompareS,CompareT>::equal_range(const S& key) {
   /* This method returns a pair of iterators positioned at the beginning and end (in that order) of
      a range of elements in the forward map containing elements with keys equal to the given key
@@ -773,7 +774,7 @@ typename std::pair<typename forward_map<S,T,CompareS>::iterator,typename forward
   return map.equal_range(key);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 typename std::pair<typename inverse_map<T,S,CompareT>::iterator,typename inverse_map<T,S,CompareT>::iterator> twomap<S,T,CompareS,CompareT>::equal_range(const T& key) {
   /* This method returns a pair of iterators positioned at the beginning and end (in that order) of
      a range of elements in the inverse map containing elements with keys equal to the given key
@@ -785,7 +786,7 @@ typename std::pair<typename inverse_map<T,S,CompareT>::iterator,typename inverse
   return inverse.equal_range(key);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 typename std::pair<typename forward_map<S,T,CompareS>::const_iterator,typename forward_map<S,T,CompareS>::const_iterator> twomap<S,T,CompareS,CompareT>::equal_range(const S& key) const {
   /* This method returns a pair of constant iterators positioned at the beginning and end (in that
      order) of a range of elements in the forward map containing elements with keys equal to the
@@ -797,7 +798,7 @@ typename std::pair<typename forward_map<S,T,CompareS>::const_iterator,typename f
   return map.equal_range(key);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 typename std::pair<typename inverse_map<T,S,CompareT>::const_iterator,typename inverse_map<T,S,CompareT>::const_iterator> twomap<S,T,CompareS,CompareT>::equal_range(const T& key) const {
   /* This method returns a pair of constant iterators positioned at the beginning and end (in that
      order) of a range of elements in the inverse map containing elements with keys equal to the
@@ -809,7 +810,7 @@ typename std::pair<typename inverse_map<T,S,CompareT>::const_iterator,typename i
   return inverse.equal_range(key);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 template <typename K>
 typename std::pair<typename forward_map<S,T,CompareS>::iterator,typename forward_map<S,T,CompareS>::iterator> twomap<S,T,CompareS,CompareT>::S_equal_range(const K& key) {
   /* This method returns a pair of iterators positioned at the beginning and end (in that order) of
@@ -823,7 +824,7 @@ typename std::pair<typename forward_map<S,T,CompareS>::iterator,typename forward
   return map.equal_range(key);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 template <typename K>
 typename std::pair<typename inverse_map<T,S,CompareT>::const_iterator,typename inverse_map<T,S,CompareT>::const_iterator> twomap<S,T,CompareS,CompareT>::T_equal_range(const K& key) {
    /* This method returns a pair of iterators positioned at the beginning and end (in that order) of
@@ -837,7 +838,7 @@ typename std::pair<typename inverse_map<T,S,CompareT>::const_iterator,typename i
   return inverse.equal_range(key);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 template <typename K>
 typename std::pair<typename forward_map<S,T,CompareS>::iterator,typename forward_map<S,T,CompareS>::iterator> twomap<S,T,CompareS,CompareT>::S_equal_range(const K& key) const {
   /* This method returns a pair of constant iterators positioned at the beginning and end (in that
@@ -852,7 +853,7 @@ typename std::pair<typename forward_map<S,T,CompareS>::iterator,typename forward
   return map.equal_range(key);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 template <typename K>
 typename std::pair<typename inverse_map<T,S,CompareT>::const_iterator,typename inverse_map<T,S,CompareT>::const_iterator> twomap<S,T,CompareS,CompareT>::T_equal_range(const K& key) const {
   /* This method returns a pair of constant iterators positioned at the beginning and end (in that
@@ -867,18 +868,18 @@ typename std::pair<typename inverse_map<T,S,CompareT>::const_iterator,typename i
   return inverse.equal_range(key);
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 bool operator==(const twomap<S,T,CompareS,CompareT>& lhs, const twomap<S,T,CompareS,CompareT>& rhs) {
   return lhs.map == rhs.map;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 bool operator!=(const twomap<S,T,CompareS,CompareT>& lhs, const twomap<S,T,CompareS,CompareT>& rhs) {
   return lhs.map != rhs.map;
 }
 
 namespace std {
-  template <typename S, typename T, typename CompareS, typename CompareT>
+  template_diff
   void swap(twomap<S,T,CompareS,CompareT> &a, twomap<S,T,CompareS,CompareT> &b) {
     a.swap(b);
   }

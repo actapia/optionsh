@@ -8,10 +8,7 @@
 #include "twomap.h"
 #include "map_defs.h"
 
-template <typename S, typename T, typename CompareS, typename CompareT>
-#ifdef __cpp_concepts
-requires different<S,T>
-#endif
+template_diff
 class twomap_setter {
   /* twomap_setter is a proxy object used for accessing and setting elements of a twomap using the
      [] operator or the at method.
@@ -94,23 +91,23 @@ private:
    A compound operator op= compute op with the right hand side and the current value in the twomap for
    the twomap_setter's key and sets the value corresponding to the twomap_setter's key to the result.
 */
-#define SIMPLE_COMPOUND_OPERATOR(op) template <typename S, typename T, typename CompareS, typename CompareT> T& twomap_setter<S,T,CompareS,CompareT>::operator op (const T& other) { inverse_delete(other); T& result = (*map)[key] op other; inverse->emplace(result,key); return result;}
+#define SIMPLE_COMPOUND_OPERATOR(op) template_diff T& twomap_setter<S,T,CompareS,CompareT>::operator op (const T& other) { inverse_delete(other); T& result = (*map)[key] op other; inverse->emplace(result,key); return result;}
 
 //static_assert(strcmp(__FILE__,"twomap_setter.cpp") != 0, "Do not compile this file.");
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 twomap_setter<S,T,CompareS,CompareT>::twomap_setter(S&& mk, forward_map<S,T,CompareS>* mp, inverse_map<T,S,CompareT>* inv): key(mk),										      
 														   map(mp),
 														   inverse(inv) {
 };
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 twomap_setter<S,T,CompareS,CompareT>::twomap_setter(const S& mk, forward_map<S,T,CompareS>* mp, inverse_map<T,S,CompareT>* inv): key(mk),										      
 														   map(mp),
 														   inverse(inv) {
 };
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 void twomap_setter<S,T,CompareS,CompareT>::inverse_delete(const T& other) const {
   // This method deletes the pair (key,other) from the twomap's inverse.
   typename forward_map<S,T,CompareS>::const_iterator current_val = map->find(key);
@@ -128,7 +125,7 @@ void twomap_setter<S,T,CompareS,CompareT>::inverse_delete(const T& other) const 
   }
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 T& twomap_setter<S,T,CompareS,CompareT>::set(const T& other) const {
   // This method sets the value corresponding to key in the twomap to other.
   inverse_delete(other);
@@ -136,67 +133,67 @@ T& twomap_setter<S,T,CompareS,CompareT>::set(const T& other) const {
   return (*map)[key] = other;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 T& twomap_setter<S,T,CompareS,CompareT>::operator=(const T& other) {
   // This operator sets the value corresponding to key in the twomap to other.
   return set(other);
 };
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 T& twomap_setter<S,T,CompareS,CompareT>::operator=(const twomap_setter<S,T,CompareS,CompareT>& other) {
   // This operator sets the value corresponding to key in the twomap to the value corresponding to the
   // key of other in other's twomap.
   return set((*other.map)[other.key]);
 };
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 T twomap_setter<S,T,CompareS,CompareT>::operator+(const T& other) {
   // This operator adds the value corresponding to key in the twomap to other and returns the result.
   return (*map)[key] + other;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 T twomap_setter<S,T,CompareS,CompareT>::operator-(const T& other) {
   // This operator subtracts other from the value corresponding to key in the twomap and returns the
   // result.
   return (*map)[key] - other;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 T twomap_setter<S,T,CompareS,CompareT>::operator*(const T& other) {
   // This operator multiplies the value corresponding to key in the twomap by other and returns the
   // result.
   return (*map)[key] * other;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 T twomap_setter<S,T,CompareS,CompareT>::operator/(const T& other) {
   // This operator divides the value corresponding to key in the twomap by other and returns the
   // result.
   return (*map)[key] / other;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 T twomap_setter<S,T,CompareS,CompareT>::operator%(const T& other) {
   // This operator computes the value corresponding to key in the twomap modulo other and returns
   // the result.
   return (*map)[key] % other;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 T twomap_setter<S,T,CompareS,CompareT>::operator+() {
   // This operator applies the unary + operator to the value corresponding to key in the twomap
   // and returns the result.
   return +(*map)[key];
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 T twomap_setter<S,T,CompareS,CompareT>::operator-() {
   // This operator negates the value corresponding to key in the twomap and returns the result.
   return -(*map)[key];
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 T twomap_setter<S,T,CompareS,CompareT>::operator++(int) {
   // The operator increments the value corresponding to key in the twomap and returns the result
   // before incrementing.
@@ -205,7 +202,7 @@ T twomap_setter<S,T,CompareS,CompareT>::operator++(int) {
   return old_value;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 twomap_setter<S,T,CompareS,CompareT>& twomap_setter<S,T,CompareS,CompareT>::operator++() {
   // The operator increments the value corresponding to key in the twomap and returns the result
   // after incrementing.
@@ -213,7 +210,7 @@ twomap_setter<S,T,CompareS,CompareT>& twomap_setter<S,T,CompareS,CompareT>::oper
   return *this;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 T twomap_setter<S,T,CompareS,CompareT>::operator--(int) {
   // The operator decrements the value corresponding to key in the twomap and returns the result
   // before decrementing.
@@ -222,7 +219,7 @@ T twomap_setter<S,T,CompareS,CompareT>::operator--(int) {
   return old_value;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 twomap_setter<S,T,CompareS,CompareT>& twomap_setter<S,T,CompareS,CompareT>::operator--() {
   // The operator decrements the value corresponding to key in the twomap and returns the result
   // after decrementing.
@@ -230,105 +227,105 @@ twomap_setter<S,T,CompareS,CompareT>& twomap_setter<S,T,CompareS,CompareT>::oper
   return *this;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 bool twomap_setter<S,T,CompareS,CompareT>::operator==(const T& other) const{
   // This operator compares the value corresponding to key in the twomap to other and returns the
   // true when they are equal.
   return (*map)[key] == other;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 bool twomap_setter<S,T,CompareS,CompareT>::operator!=(const T& other) const{
   // This operator compares the value corresponding to key in the twomap to other and returns the
   // true when they are not equal.
   return (*map)[key] != other;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 bool twomap_setter<S,T,CompareS,CompareT>::operator<(const T& other) const {
   // This operator compares the value corresponding to key in the twomap to other and returns the
   // true when the former is less than the latter.
   return (*map)[key] < other;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 bool twomap_setter<S,T,CompareS,CompareT>::operator>(const T& other) const {
   // This operator compares the value corresponding to key in the twomap to other and returns the
   // true when the former is greater than the latter.
   return (*map)[key] > other;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 bool twomap_setter<S,T,CompareS,CompareT>::operator>=(const T& other) const {
   // This operator compares the value corresponding to key in the twomap to other and returns the
   // true when the former is greater than or equal to the latter.
   return (*map)[key] >= other;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 bool twomap_setter<S,T,CompareS,CompareT>::operator<=(const T& other) const {
   // This operator compares the value corresponding to key in the twomap to other and returns the
   // true when the former is less than or equal to the latter.
   return (*map)[key] <= other;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 bool twomap_setter<S,T,CompareS,CompareT>::operator!() const {
   // This operator computes the boolean inverse of the value corresponding to key in the twomap and
   // returns the result.
   return !(*map)[key];
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 bool twomap_setter<S,T,CompareS,CompareT>::operator&&(const T& other) const {
   // This operator computes the value corresponding to key in the twomap and other and returns the
   // result.
   return (*map)[key] && other;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 bool twomap_setter<S,T,CompareS,CompareT>::operator||(const T& other) const {
   // This operator computes the value corresponding to key in the twomap or other and returns the
   // result.
   return (*map)[key] || other;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 T twomap_setter<S,T,CompareS,CompareT>::operator~() {
   // This operator computes the bitwise inverse of the value corresponding to key in the twomap and
   // returns the result.
   return ~(*map)[key];
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 T twomap_setter<S,T,CompareS,CompareT>::operator&(const T& other) {
   // This operator computes the bitwise and of the value corresponding to key in the twomap and other
   // and returns the result.
   return (*map)[key] & other;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 T twomap_setter<S,T,CompareS,CompareT>::operator|(const T& other) {
   // This operator computes the bitwise or of the value corresponding to key in the twomap and other
   // and returns the result.
   return (*map)[key] | other;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 T twomap_setter<S,T,CompareS,CompareT>::operator^(const T& other) {
   // This operator computes the bitwise exclusive or of the value corresponding to key in the twomap
   // and other and returns the result.
   return (*map)[key] ^ other;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 T twomap_setter<S,T,CompareS,CompareT>::operator<<(const T& other) {
   // This operator left shifts the value corresponding to key in the twomap by other and returns the
   // result.
   return (*map)[key] << other;
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 T twomap_setter<S,T,CompareS,CompareT>::operator>>(const T& other) {
   // This operator right shifts the value corresponding to key in the twomap by other and returns the
   // result.
@@ -349,30 +346,30 @@ SIMPLE_COMPOUND_OPERATOR(^=);
 SIMPLE_COMPOUND_OPERATOR(<<=);
 SIMPLE_COMPOUND_OPERATOR(>>=);
 
-// template <typename S, typename T, typename CompareS, typename CompareT>
+// template_diff
 // auto twomap_setter<S,T,CompareS,CompareT>::operator[](S& index) {
 //   return (*map)[key][index];
 // }
 
-// template <typename S, typename T, typename CompareS, typename CompareT>
+// template_diff
 // auto twomap_setter<S,T,CompareS,CompareT>::operator*() {
 //   return *((*map)[key]);
 // }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 twomap_setter<S,T,CompareS,CompareT>::operator T() {
   // This operator converts the value corresponding to key in the twomap to type T and returns the
   // result.
   return (*map)[key];
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 std::ostream& operator<<(std::ostream& os, const twomap_setter<S,T,CompareS,CompareT>& setter) {
   // This operator writes the value corresponding to setter's key in its twomap to an output stream.
   return os << (*setter.map)[setter.key];
 }
 
-template <typename S, typename T, typename CompareS, typename CompareT>
+template_diff
 std::istream& operator>>(std::istream& os, const twomap_setter<S,T,CompareS,CompareT>& setter) {
   // This operator read into the value corresponding to setter's key in its twomap from
   // an output stream.
